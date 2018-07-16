@@ -46,7 +46,7 @@ func getHostnames(subsets []core.EndpointSubset) []string {
 func getFqdn(hostnames []string, namespaceName string, serviceName string, domainName string) []string {
 	fqdns := []string{}
 	for _, hostname := range hostnames {
-		fqdns = append(fqdns, hostname+"."+serviceName+"."+namespaceName+"."+domainName)
+		fqdns = append(fqdns, hostname+"."+serviceName+"."+namespaceName+"."+"svc"+"."+domainName)
 	}
 	return fqdns
 }
@@ -64,7 +64,7 @@ func formatOutput(result []string, format string) {
 	switch format {
 	case "zookeeper":
 		for _, host := range result {
-			fmt.Printf("server%s:%s:2888:3888\n", getNodeIndex(host), host)
+			fmt.Printf("server.%s=%s:2888:3888;2181\n", getNodeIndex(host), host)
 		}
 	case "elasticsearch":
 		fmt.Printf("discovery.zen.ping.unicast.hosts: [%s]\n", strings.Join(result, ", "))
